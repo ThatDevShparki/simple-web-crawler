@@ -17,6 +17,36 @@ pydocstyle = "^6.1.1"
 pylint = "^2.12.2"
 pytest = "^6.2.5"
 black = "^21.12b0"
+coverage = { version = "^6.2", extras = ["toml"]}
+pytest-sugar = "^0.9.4"
+pytest-clarity = "^1.0.1"
+
+[tool.pytest.ini_options]
+addopts=['--no-header']
+testpaths=[
+    "tests"
+]
+log_file = "logs/pytest-output.txt"
+log_file_level = "DEBUG"
+markers = []
+
+[tool.coverage.run]
+branch = true
+data_file = '.coverage/report'
+command_line = '-m pytest'
+dynamic_context = "test_function"
+omit = ['**/.venv/*', '**/tests/*', '**/conftest.py']
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.coverage.html]
+show_contexts = true
+directory = 'coverage/html'
+
+[tool.pylint.master]
+ignore=["tests"]
+disable=["R0902", "R0903", "C0302", "W0105", "C0103", "R0913"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
