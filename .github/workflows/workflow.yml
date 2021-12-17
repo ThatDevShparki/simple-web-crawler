@@ -30,3 +30,9 @@ jobs:
         run: |
           python -m coverage run
           python -m coverage xml
+
+      - name: Report Coverage
+        uses: orgoro/coverage@v2
+        with:
+          coverageFile: coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
