@@ -1,29 +1,50 @@
---extra-index-url https://pypi.org/simple
 
-amqp==5.0.7; python_version >= "3.7"
-beautifulsoup4==4.10.0; python_full_version > "3.0.0"
-billiard==3.6.4.0; python_version >= "3.7"
-celery==5.2.1; python_version >= "3.7"
-certifi==2021.10.8; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0"
-cffi==1.15.0; platform_python_implementation == "CPython" and sys_platform == "win32" and (python_version >= "2.7" and python_full_version < "3.0.0" or python_version > "3.5")
-charset-normalizer==2.0.9; python_full_version >= "3.6.0" and python_version >= "3"
-click-didyoumean==0.3.0; python_full_version >= "3.6.2" and python_full_version < "4.0.0" and python_version >= "3.7"
-click-plugins==1.1.1; python_version >= "3.7"
-click-repl==0.2.0; python_version >= "3.7"
-click==8.0.3; python_version >= "3.6"
-colorama==0.4.4; python_version >= "3.7" and python_full_version < "3.0.0" and platform_system == "Windows" or platform_system == "Windows" and python_version >= "3.7" and python_full_version >= "3.5.0"
-gevent==21.12.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_version > "3.5")
-greenlet==1.1.2; python_version >= "2.7" and python_full_version < "3.0.0" and platform_python_implementation == "CPython" or python_version > "3.5" and python_full_version < "3.0.0" and platform_python_implementation == "CPython" or python_version > "3.5" and platform_python_implementation == "CPython" and python_full_version >= "3.5.0"
-idna==3.3; python_version >= "3.5" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version >= "3.5"
-kombu==5.2.2; python_version >= "3.7"
-prompt-toolkit==3.0.24; python_full_version >= "3.6.2" and python_version >= "3.7"
-pycparser==2.21; python_version >= "2.7" and python_full_version < "3.0.0" and platform_python_implementation == "CPython" and sys_platform == "win32" and (python_version >= "2.7" and python_full_version < "3.0.0" or python_version > "3.5") or platform_python_implementation == "CPython" and sys_platform == "win32" and (python_version >= "2.7" and python_full_version < "3.0.0" or python_version > "3.5") and python_full_version >= "3.4.0"
-pytz==2021.3; python_version >= "3.7"
-requests==2.26.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_full_version >= "3.6.0")
-six==1.16.0; python_version >= "3.7" and python_full_version < "3.0.0" or python_full_version >= "3.3.0" and python_version >= "3.7"
-soupsieve==2.3.1; python_version >= "3.6" and python_full_version > "3.0.0"
-urllib3==1.26.7; python_version >= "2.7" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version < "4"
-vine==5.0.0; python_version >= "3.7"
-wcwidth==0.2.5; python_full_version >= "3.6.2" and python_version >= "3.7"
-zope.event==4.5.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_version > "3.5"
-zope.interface==5.4.0; python_version >= "2.7" and python_full_version < "3.0.0" or python_version > "3.5" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version > "3.5"
+  Stack trace:
+
+  11  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/console_application.py:123 in run
+      io = io_factory(
+
+  10  ~/.poetry/lib/poetry/console/config/application_config.py:221 in create_io
+      resolved_command = application.resolve_command(args)
+
+   9  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/console_application.py:110 in resolve_command
+      return self._config.command_resolver.resolve(args, self)
+
+   8  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/resolver/default_resolver.py:34 in resolve
+      return self.create_resolved_command(result)
+
+   7  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/resolver/default_resolver.py:166 in create_resolved_command
+      if not result.is_parsable():
+
+   6  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/resolver/resolve_result.py:43 in is_parsable
+      self._parse()
+
+   5  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/resolver/resolve_result.py:49 in _parse
+      self._parsed_args = self._command.parse(self._raw_args)
+
+   4  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/api/command/command.py:113 in parse
+      return self._config.args_parser.parse(args, self._args_format, lenient)
+
+   3  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/args/default_args_parser.py:53 in parse
+      self._parse(args, _fmt, lenient)
+
+   2  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/args/default_args_parser.py:103 in _parse
+      self._parse_short_option(token, tokens, fmt, lenient)
+
+   1  ~/.poetry/lib/poetry/_vendor/py3.8/clikit/args/default_args_parser.py:272 in _parse_short_option
+      self._add_short_option(name, None, tokens, fmt, lenient)
+
+  NoSuchOptionException
+
+  The "-D" option does not exist.
+
+  at ~/.poetry/lib/poetry/_vendor/py3.8/clikit/args/default_args_parser.py:349 in _add_short_option
+      345│     def _add_short_option(
+      346│         self, name, value, tokens, fmt, lenient
+      347│     ):  # type: (str, Optional[str], List[str], ArgsFormat, bool) -> None
+      348│         if not fmt.has_option(name):
+    → 349│             raise NoSuchOptionException(name)
+      350│ 
+      351│         self._add_long_option(
+      352│             fmt.get_option(name).long_name, value, tokens, fmt, lenient
+      353│         )
