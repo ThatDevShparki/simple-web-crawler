@@ -31,5 +31,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          python -m coverage run
-          python -m coverage xml
+          poetry run coverage run
+          poetry run coverage xml
