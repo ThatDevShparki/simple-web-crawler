@@ -1,6 +1,6 @@
 # Poetry update
 poetry update
-poetry export -f requirements.txt --without-hashes > requirements.txt
+poetry export -f requirements.txt --without-hashes --dev > requirements.txt
 
 # Docker build
 export DOCKER_BUILDKIT=1 
