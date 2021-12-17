@@ -39,10 +39,11 @@ omit = ['**/.venv/*', '**/tests/*', '**/conftest.py']
 
 [tool.coverage.report]
 show_missing = true
+# directory = '.coverage'
 
 [tool.coverage.html]
 show_contexts = true
-directory = 'coverage/html'
+directory = '.coverage'
 
 [tool.pylint.master]
 ignore=["tests"]

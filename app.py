@@ -9,32 +9,35 @@ from urllib.parse import urlparse
 
 # from services import models
 
-url = 'https://www.martinfowler.com/bliki/'
-queue, tree = [url], {}
-while queue:
-    current = queue.pop(0)
-    if current in tree:
-        continue
 
-    tree[current] = {'links': [], 'images': []}
-    soup = BeautifulSoup(
-        requests.get(current).content, 'html.parser', from_encoding='iso-8859-1'
-    )
+def main():
+    url = 'https://www.martinfowler.com/bliki/'
+    queue, tree = [url], {}
+    while queue:
+        current = queue.pop(0)
+        if current in tree:
+            continue
 
-    for element in soup.find_all('a'):
-        link = element.attrs.get('href')
-        if link:
-            if link.startswith('/'):
-                link = url + link[1:]
-            tree[current]['links'].append(link)
+        tree[current] = {'links': [], 'images': []}
+        soup = BeautifulSoup(
+            requests.get(current).content,
+            'html.parser',
+            from_encoding='iso-8859-1',
+        )
 
-            if link.startswith(url) and link not in tree:
-                queue.append(link)
+        for element in soup.find_all('a'):
+            link = element.attrs.get('href')
+            if link:
+                if link.startswith('/'):
+                    link = url + link[1:]
+                tree[current]['links'].append(link)
 
-    print(json.dumps(tree[current], indent=2))
+                if link.startswith(url) and link not in tree:
+                    queue.append(link)
 
+        print(json.dumps(tree[current], indent=2))
 
-outputs_path = Path('outputs/sitetree.json').resolve()
-os.makedirs(outputs_path.parent, exist_ok=True)
-with open(outputs_path, mode='w', encoding='utf-8') as buffer:
-    json.dump(tree, buffer, indent=2)
+    outputs_path = Path('outputs/sitetree.json').resolve()
+    os.makedirs(outputs_path.parent, exist_ok=True)
+    with open(outputs_path, mode='w', encoding='utf-8') as buffer:
+        json.dump(tree, buffer, indent=2)
