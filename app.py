@@ -2,42 +2,81 @@ import os
 import json
 from pathlib import Path
 import multiprocessing as mp
+from queue import Empty
+from concurrent.futures import ThreadPoolExecutor
+import logging
 
+import click
 import requests
 from bs4 import BeautifulSoup, element
 from urllib.parse import urlparse
+import tldextract
 
-# from services import models
+from services.models import Page
 
 
-def main():
-    url = 'https://www.martinfowler.com/bliki/'
-    queue, tree = [url], {}
-    while queue:
-        current = queue.pop(0)
-        if current in tree:
-            continue
+# Logging setup
+logging.basicConfig(filename='logs/output.log', level=logging.INFO)
 
-        tree[current] = {'links': [], 'images': []}
+
+@click.command()
+@click.option('-url', required=True, help='The URL to crawl.')
+@click.option('--depth', default=None, help='The maximumd depth to traverse.')
+def crawl(url, depth):
+    root = f'https://{".".join(d for d in tldextract.extract(url) if d)}'
+    print(root)
+
+    queue = mp.Queue()
+    queue.put(url)
+
+    def process_url(url, tree):
+        _links, _images = [], []
+
         soup = BeautifulSoup(
-            requests.get(current).content,
+            requests.get(url).content,
             'html.parser',
             from_encoding='iso-8859-1',
         )
-
-        for element in soup.find_all('a'):
-            link = element.attrs.get('href')
+        for ele in soup.find_all('a'):
+            link = ele.attrs.get('href')
             if link:
-                if link.startswith('/'):
-                    link = url + link[1:]
-                tree[current]['links'].append(link)
+                if not (link.startswith('http') or link.startswith('www')):
+                    if not (link.startswith('/') or link.startswith('#')):
+                        link = '/' + link
+                    link = root + link
+
+                if link not in _links:
+                    _links.append(link)
 
                 if link.startswith(url) and link not in tree:
-                    queue.append(link)
+                    queue.put(link)
 
-        print(json.dumps(tree[current], indent=2))
+        tree[url] = {'links': _links, 'images': _images}
+        # print(json.dumps({url: tree[url]}, indent=2))
+
+    tree, results = mp.Manager().dict(), []
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        while queue:
+            try:
+                current = queue.get(timeout=2)
+                print('hi')
+            except Empty:
+                return
+
+            if current in tree:
+                continue
+
+            results.append(executor.submit(process_url, current, tree).result())
 
     outputs_path = Path('outputs/sitetree.json').resolve()
     os.makedirs(outputs_path.parent, exist_ok=True)
     with open(outputs_path, mode='w', encoding='utf-8') as buffer:
         json.dump(tree, buffer, indent=2)
+
+
+if __name__ == '__main__':
+    # crawl()  # pylint: disable=no-value-for-parameter
+
+    url = 'https://martinfowler.com/bliki'
+    page = Page(url)
+    print(json.dumps(Page.serialize(page), indent=2))
