@@ -4,11 +4,9 @@ from services import models
 
 
 def test_creation_valid_url():
-    root, ext = 'https://example.com', 'testing/'
-    url = '/'.join([root, ext])
+    url = 'https://example.com/'
     page = models.Page(url)
     assert page.url == url
-    assert page.root == root
 
 
 def test_loaded_flag_success():
