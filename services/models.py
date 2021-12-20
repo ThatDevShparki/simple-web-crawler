@@ -84,7 +84,7 @@ class Page:
         self.images = []
 
     def __repr__(self):
-        return f'Page(url={self.url})'
+        return f'Page(url={self.url}, level={self.level})'
 
     def __hash__(self):
         return hash(self.url)
@@ -213,7 +213,6 @@ class Page:
         return {
             'page_url': page.url,
             'title': page.title,
-            'level': page.level,
             'links': list(p.url for p in page.iter_links()),
             'images': page.images,
         }

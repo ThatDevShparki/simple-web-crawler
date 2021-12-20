@@ -1,7 +1,9 @@
 [![codecov](https://img.shields.io/codecov/c/gh/ThatDevShparki/simple-web-crawler)](https://codecov.io/gh/ThatDevShparki/simple-web-crawler)
 
 # Simple Web Crawler
-This is a simple web crawler application, built in python.
+Hi! I'm a Simple Web Crawler. Give me a website and I'll throw so much information at you, you'll wish I wasn't so simple.
+
+To get started, checkout the `Installation` and `Quick Start` sections below- happy crawling :bug:!
 
 ## Installation
 It is recommended that for all installation mechanisms to use a virtual environment. You can create and activate a virtual environment using the following:
@@ -41,4 +43,4 @@ path) and we will push the output to `output.json`.
  - `-url`: The url that is to be crawled.
  - `--depth` (*Optional*): The maximum allowed depth to traverse. Default functionality is to not limit the depth.
  - `--output` (*Optional*): The output location, relative to where the script is called from. The default output location is `./outputs/sitemap.json`.
-
+ - `--superfastawesome` (*optional*): If specified, then the process will run in Super-Fast-Awesome mode which enabled multiprocessing to (hopefully depending on the device used) speed through the sitemap generation :fire:!
