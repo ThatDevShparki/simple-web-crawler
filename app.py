@@ -1,6 +1,8 @@
+"""Entry-point for all scripts."""
 import os
 import json
 from pathlib import Path
+
 import multiprocessing as mp
 from queue import Empty
 from concurrent.futures import ThreadPoolExecutor
@@ -24,6 +26,7 @@ logging.basicConfig(filename='logs/output.log', level=logging.INFO)
     '--depth', type=int, default=None, help='The maximumd depth to traverse.'
 )
 def crawl(url: str, depth: int = None):
+    """Crawl a webpage URL with an optional max depth of DEPTH."""
     root = Page(url)
     queue, tree = [root], {}
 
