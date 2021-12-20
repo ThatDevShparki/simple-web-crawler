@@ -88,7 +88,6 @@ def test_page_serialization():
     doc = {
         'page_url': url,
         'title': 'Example Domain',
-        'level': 0,
         'links': ['https://www.iana.org/domains/example'],
         'images': [],
     }
@@ -107,7 +106,6 @@ def test_page_deserialization():
     doc = {
         'page_url': url,
         'title': 'Example Domain',
-        'level': 0,
         'links': ['https://www.iana.org/domains/example'],
         'images': [],
     }
@@ -127,7 +125,6 @@ def test_page_backward_portability():
     doc = {
         'page_url': url,
         'title': 'Example Domain',
-        'level': 0,
         'links': ['https://www.iana.org/domains/example'],
         'images': [],
     }
