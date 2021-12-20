@@ -1,43 +1,60 @@
+"""Entry-point for all scripts."""
 import os
 import json
 from pathlib import Path
-import multiprocessing as mp
 
+import multiprocessing as mp
+from queue import Empty
+from concurrent.futures import ThreadPoolExecutor
+import logging
+
+import click
 import requests
 from bs4 import BeautifulSoup, element
 from urllib.parse import urlparse
 
-# from services import models
+from services.models import Page
 
 
-def main():
-    url = 'https://www.martinfowler.com/bliki/'
-    queue, tree = [url], {}
+# Logging setup
+logging.basicConfig(filename='logs/output.log', level=logging.INFO)
+
+
+@click.command()
+@click.option('-url', required=True, help='The URL to crawl.')
+@click.option(
+    '--depth', type=int, default=None, help='The maximum depth to traverse.'
+)
+@click.option(
+    '--output',
+    default='outputs/sitetree.json',
+    help='The output path to save the sitetree.',
+)
+def crawl(url: str, depth: int, output: str):
+    """Crawl a webpage URL with an optional max depth of DEPTH."""
+    root = Page(url)
+    queue, tree = [root], {}
+
     while queue:
         current = queue.pop(0)
-        if current in tree:
-            continue
+        tree[current.url] = current.to_json()
+        print(json.dumps(current.to_json(), indent=2))
 
-        tree[current] = {'links': [], 'images': []}
-        soup = BeautifulSoup(
-            requests.get(current).content,
-            'html.parser',
-            from_encoding='iso-8859-1',
-        )
+        for page in current.iter_links():
+            if all(
+                [
+                    page.url.startswith(url),
+                    page.url not in tree,
+                    (depth is None or page.level <= depth),
+                ]
+            ):
+                queue.append(page)
 
-        for element in soup.find_all('a'):
-            link = element.attrs.get('href')
-            if link:
-                if link.startswith('/'):
-                    link = url + link[1:]
-                tree[current]['links'].append(link)
-
-                if link.startswith(url) and link not in tree:
-                    queue.append(link)
-
-        print(json.dumps(tree[current], indent=2))
-
-    outputs_path = Path('outputs/sitetree.json').resolve()
+    outputs_path = Path(output).resolve()
     os.makedirs(outputs_path.parent, exist_ok=True)
     with open(outputs_path, mode='w', encoding='utf-8') as buffer:
         json.dump(tree, buffer, indent=2)
+
+
+if __name__ == '__main__':
+    crawl()  # pylint: disable=no-value-for-parameter
