@@ -1,6 +1,6 @@
 --extra-index-url https://pypi.org/simple
 
-amqp==5.0.7; python_version >= "3.7"
+amqp==5.0.9; python_version >= "3.7"
 astroid==2.9.0; python_version >= "3.6" and python_version < "4.0" and python_full_version >= "3.6.2"
 atomicwrites==1.4.0; python_version >= "3.6" and python_full_version < "3.0.0" and sys_platform == "win32" and (python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.6") or sys_platform == "win32" and python_version >= "3.6" and python_full_version >= "3.4.0" and (python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.6")
 attrs==21.2.0; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.5.0" and python_version >= "3.6"
@@ -20,6 +20,7 @@ commonmark==0.9.1; python_full_version >= "3.6.2" and python_full_version < "4.0
 coverage==6.2; python_version >= "3.6"
 gevent==21.12.0; (python_version >= "2.7" and python_full_version < "3.0.0") or (python_version > "3.5")
 greenlet==1.1.2; python_version >= "2.7" and python_full_version < "3.0.0" and platform_python_implementation == "CPython" or python_version > "3.5" and python_full_version < "3.0.0" and platform_python_implementation == "CPython" or python_version > "3.5" and platform_python_implementation == "CPython" and python_full_version >= "3.5.0"
+hyperlink==21.0.0; (python_version >= "2.6" and python_full_version < "3.0.0") or (python_full_version >= "3.4.0")
 idna==3.3; python_version >= "3.5" and python_full_version < "3.0.0" or python_full_version >= "3.6.0" and python_version >= "3.5"
 iniconfig==1.1.1; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.6"
 isort==5.10.1; python_full_version >= "3.6.2" and python_version < "4.0"
