@@ -32,8 +32,6 @@ jobs:
           python -m coverage xml
 
       - name: Report Coverage
-        uses: orgoro/coverage@v2
+        uses: codecov/codecov-action@v2
         with:
-          coverageFile: coverage.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
-          thresholdAll: 0.8
+          token: ${{ secrets.CODECOV_TOKEN }}
